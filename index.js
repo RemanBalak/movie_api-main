@@ -11,7 +11,7 @@ Models = require('./models.js');
 // use .env file to hide sensitive data
 dotenv.config();
 
-mongoose.connect(process.env.CONNECTION_URI, {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
