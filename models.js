@@ -1,33 +1,30 @@
-const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 let movieSchema = mongoose.Schema({
-  Title: { type: String, required: true },
-  Description: { type: String, required: true },
-  Genre: {
-    Name: String,
-    Description: String,
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  genre: {
+    name: String,
+    description: String,
   },
-  Director: {
-    Name: String,
-    Bio: String,
-    Birth: String,
-    Death: String,
+  director: {
+    name: String,
+    bio: String,
+    birthYear: String,
+    deathYear: String,
   },
-  ImagePath: String,
-  Featured: Boolean,
+  imageURL: String,
+  year: String,
+  featured: Boolean,
 });
 
 let userSchema = mongoose.Schema({
-  Username: { type: String, required: true },
-  Password: { type: String, required: true },
-  Name: String,
-  Email: String,
-  Gender: String,
-  Birthday: Date,
-  Address: String,
-  Phone: String,
-  FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+  email: { type: String, required: true },
+  birthDate: Date,
+  favoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movies' }],
 });
 
 userSchema.statics.hashPassword = (password) => {
@@ -43,5 +40,3 @@ let User = mongoose.model('User', userSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
-
-// mongoose.connect('mongodb://localhost:3000/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
