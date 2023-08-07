@@ -282,56 +282,29 @@ app.post(
   }
 );
 
-//adding a movie to a user's favorite list -- MY CODE BELOW
-// app.post(
-//   '/users/:username/movies/:movieID',
-//   passport.authenticate('jwt', { session: false }),
-//   (req, res) => {
-//     Users.findOneAndUpdate(
-//       { username: req.params.username },
-//       {
-//         $addToSet: { favoriteMovies: req.params.movieID },
-//       },
-//       { new: true }
-//     )
-//       .then((updatedUser) => {
-//         if (!updatedUser) {
-//           return res.status(404).send('Error: User was not found');
-//         } else {
-//           res.json(updatedUser);
-//         }
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//         res.status(500).send('Error: ' + error);
-//       });
-//   }
-// );
-// CREATE a new favorite movie --test code from someone else
+//adding a movie to a user's favorite list
 app.post(
   '/users/:username/movies/:movieID',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    //Check if user is authorized
-    if (req.params.username === req.user.username) {
-      Users.findOneAndUpdate(
-        { username: req.params.username },
-        {
-          $push: { favoriteMovies: req.params.movieID },
-        },
-        { new: true },
-        (err, updatedUser) => {
-          if (err) {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
-          } else {
-            res.status(200).json(updatedUser);
-          }
+    Users.findOneAndUpdate(
+      { username: req.params.username },
+      {
+        $addToSet: { favoriteMovies: req.params.movieID },
+      },
+      { new: true }
+    )
+      .then((updatedUser) => {
+        if (!updatedUser) {
+          return res.status(404).send('Error: User was not found');
+        } else {
+          res.json(updatedUser);
         }
-      );
-    } else {
-      res.status(500).send('Unauthorized');
-    }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+      });
   }
 );
 
