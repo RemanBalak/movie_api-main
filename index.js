@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
@@ -34,8 +35,14 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Use Cross-Origin Resource Sharing
-const cors = require('cors');
+// Enable CORS for all routes
+let allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:1234',
+  'http://127.0.0.1:1234',
+  'http://localhost:8080',
+  'http://127.0.0.1:8080',
+];
 app.use(cors());
 
 // Require passport module and import auth.js and passport.js
