@@ -1,54 +1,56 @@
-const passport = require('passport');
-const localStrategy = require('passport-local').Strategy;
-const Models = require('./models.js');
-const passportJWT = require('passport-jwt');
+const passport = require('passport'),
+  LocalStrategy = require('passport-local').Strategy,
+  Models = require('./models.js'),
+  passportJWT = require('passport-jwt');
 
-let Users = Models.User;
-let jwtStrategy = passportJWT.Strategy;
-let extractJWT = passportJWT.ExtractJwt;
+let Users = Models.User,
+  JWTStrategy = passportJWT.Strategy,
+  ExtractJWT = passportJWT.ExtractJwt;
+
+/**
+ * Log in user
+ */
 
 passport.use(
-  new localStrategy(
+  new LocalStrategy(
     {
       usernameField: 'username',
       passwordField: 'password',
     },
     (username, password, callback) => {
       console.log(username + ' ' + password);
-      Users.findOne({ username: username })
-        .then((user) => {
-          if (!user) {
-            console.log('incorrect username');
-            return callback(null, false, {
-              message: 'Incorrect username or password.',
-            });
-          }
-
-          if (!user) {
-            console.log('incorrect password');
-            return callback(null, false, { message: 'Incorrect password.' });
-          }
-
-          // // if (!user.validatePassword(password)) {
-          // //   console.log('Incorrect password');
-          // //   return callback(null, false, { message: 'Incorrect password.' });
-          // // }
-
-          console.log('finished');
-          return callback(null, user);
-        })
-        .catch((error) => {
-          console.error(error);
+      Users.findOne({ username: username }, (error, user) => {
+        if (error) {
+          console.log(error);
           return callback(error);
-        });
+        }
+
+        if (!user) {
+          console.log('incorrect username');
+          return callback(null, false, { message: 'incorrect username' });
+        }
+
+        if (!user.validatePassword(password)) {
+          console.log('incorrect password');
+          return callback(null, false, { message: 'incorrect password' });
+        }
+
+        console.log('finished');
+        return callback(null, user);
+      });
     }
   )
 );
+
+/**
+ * Check Token for any authenticated request
+ */
+
 passport.use(
-  new jwtStrategy(
+  new JWTStrategy(
     {
-      jwtFromRequest: extractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'your_jwt_secret',
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      secretOrKey: '39028409qrfiwemqxoIAJMFD54gbqwmk',
     },
     (jwtPayload, callback) => {
       return Users.findById(jwtPayload._id)

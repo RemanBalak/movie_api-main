@@ -1,9 +1,13 @@
-const jwtSecret = 'your_jwt_secret';
-
+const jwtSecret = '39028409qrfiwemqxoIAJMFD54gbqwmk';
 const jwt = require('jsonwebtoken'),
   passport = require('passport');
-
 require('./passport');
+
+/**
+ * Generates JWT Token
+ * @param {JSON} user
+ * @returns JWT Token
+ */
 
 let generateJWTToken = (user) => {
   return jwt.sign(user, jwtSecret, {
@@ -13,22 +17,26 @@ let generateJWTToken = (user) => {
   });
 };
 
-// POST login
+/**
+ * Login route and logic
+ * @param {*} router
+ */
 
 module.exports = (router) => {
   router.post('/login', (req, res) => {
-    passport.authenticate('local', { session: false }, (error, user, info) => {
-      if (error || !user) {
-        console.log(error);
+    passport.authenticate('local', { session: false }, (err, user, info) => {
+      if (err || !user) {
         return res.status(400).json({
-          message: 'Something is not right',
+          message: 'something ist not right',
           user: user,
         });
       }
+
       req.login(user, { session: false }, (error) => {
         if (error) {
           res.send(error);
         }
+
         let token = generateJWTToken(user.toJSON());
         return res.json({ user, token });
       });
