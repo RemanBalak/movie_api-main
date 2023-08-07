@@ -17,7 +17,10 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {
 });
 
 // Connect to the mongodb database
-// mongoose.connect("mongodb://127.0.0.1:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://127.0.0.1:27017/myFlixDB', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -42,7 +45,7 @@ require('./passport');
 
 // READ landing page welcome message
 app.get('/', (req, res) => {
-  res.send('Welcome to the movie database!');
+  res.send('Welcome to the movie database!!');
 });
 
 // READ all users (not documented yet)
