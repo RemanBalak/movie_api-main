@@ -1,30 +1,39 @@
 {
   "name": "movie_api",
   "version": "1.0.0",
-  "description": "",
+  "description": "This web application will provide users with access to information about different movies, directors, and genres. Users will be able to sign up, update their personal information, and create a list of their favorite movies.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlissaCoto89/movie_api.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlissaCoto89/movie_api/issues"
+  },
+  "homepage": "https://github.com/AlissaCoto89/movie_api#readme",
   "dependencies": {
-    "bcrypt": "^5.1.0",
-    "body-parser": "^1.20.2",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "express-validator": "^7.0.1",
-    "jsonwebtoken": "^9.0.0",
-    "mongodb": "4.1",
-    "mongoose": "^7.1.1",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-validator": "^6.14.2",
+    "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.6.1",
     "morgan": "^1.10.0",
-    "node": "^20.3.1",
     "passport": "^0.6.0",
-    "passport-jwt": "^4.0.1",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.23.0"
   }
 }

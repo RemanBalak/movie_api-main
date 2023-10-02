@@ -1,34 +1,39 @@
-const jwtSecret = '39028409qrfiwemqxoIAJMFD54gbqwmk';
-const jwt = require('jsonwebtoken'),
-  passport = require('passport');
-require('./passport');
+const jwtSecret = "your_jwt_secret";
+const jwt = require("jsonwebtoken"),
+  passport = require("passport");
+
+require("./passport"); //local passport file
 
 /**
- * Generates JWT Token
- * @param {JSON} user
- * @returns JWT Token
+ * Creates JWT (expiring in 7 days, using HS256 algorithm to encode)
+ * @param {object} user
+ * @returns user object, jwt, and additional information on token
+ * @function generateJWTToken
  */
 
 let generateJWTToken = (user) => {
   return jwt.sign(user, jwtSecret, {
-    subject: user.username,
-    expiresIn: '7d',
-    algorithm: 'HS256',
+    subject: user.Username, // encodes username in JWT
+    expiresIn: "7d", // token expires in 7 days
+    algorithm: "HS256", // used to encode the value of JWT
   });
 };
 
 /**
- * Login route and logic
- * @param {*} router
+ * Handles user login, generates a JWT upon login
+ * @name postLogin
+ * @kind function
+ * @param router
+ * @returns user object with JWT
+ * @requires passport
  */
 
 module.exports = (router) => {
-  router.post('/login', (req, res) => {
-    passport.authenticate('local', { session: false }, (error, user, info) => {
+  router.post("/login", (req, res) => {
+    passport.authenticate("local", { session: false }, (error, user, info) => {
       if (error || !user) {
-        console.log(error);
         return res.status(400).json({
-          message: 'Something is not right',
+          message: "Something is not right!",
           user: user,
         });
       }
